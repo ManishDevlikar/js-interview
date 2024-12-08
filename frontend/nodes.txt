@@ -1,0 +1,244 @@
+In JavaScript, the delete keyword is used to remove properties from an object, 
+but it doesn't delete variables, objects, or their references. Here's why:
+
+3. Memory Management:
+JavaScript has an automatic garbage collection system that handles memory management. 
+When an object is no longer referenced by any variable, it becomes eligible for garbage collection, 
+meaning the memory it occupies can be reclaimed. The delete keyword does not directly influence this process.
+
+
+Falsy Values
+Only a few specific values are considered falsy:
+
+false
+0
+"" (empty string)
+null
+undefined
+NaN (Not a Number)
+
+types of pop up boxes 
+1-> alert('');
+2-> confirm(''); returns true false
+3-> prompt(''); returns value of input box
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Hoisting
+
+Hoisting in JavaScript refers to the behavior where variable and function declarations are moved, 
+or "hoisted," to the top of their containing scope during the compilation phase, 
+before the code is executed. This means that you can use variables and functions before they are declared in the code.
+
+Key Points:
+Variable Hoisting: Only the declarations of var variables are hoisted, 
+not their initializations. This can lead to undefined if you try to access a variable before it's assigned a value.
+
+
+console.log(x); // undefined
+var x = 5;
+console.log(x); // 5
+Here, var x is hoisted to the top, but x = 5 is not.
+
+Function Hoisting: Function declarations are fully hoisted, meaning you can call a function before it's defined in the code.
+
+greet(); // "Hello"
+
+function greet() {
+    console.log("Hello");
+}
+Let and Const: Variables declared with let and const are hoisted as well, but they are not initialized. Accessing them before their declaration results in a ReferenceError. This behavior is often referred to as being in the "temporal dead zone."
+
+
+console.log(a); // ReferenceError: Cannot access 'a' before initialization
+let a = 10;
+
+////////////////////////////////////////////////////////////////////////////////
+Promises and setTimeout which get executed first????
+
+When you have both a Promise and a setTimeout in your JavaScript code, 
+the Promise will generally resolve first, even if the setTimeout has a shorter delay. 
+This is due to the way the JavaScript event loop prioritizes tasks.
+
+Explanation:
+Microtasks and Macrotasks:
+
+Promises: The .then() callbacks of Promises are queued in the microtask queue.
+setTimeout: The callback of setTimeout is queued in the macrotask (or task) queue.
+Event Loop Priority:
+
+The event loop first processes all the microtasks in the microtask queue before it moves on to the macrotask queue.
+Even if there are macrotasks queued up, the microtasks are always processed first after the current JavaScript stack is empty.
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Shallow Copy
+
+A shallow copy of an object is a new object that is a copy of the original object, but with only one level of depth. 
+If the original object contains other objects (like nested objects or arrays), the references to those objects are copied, 
+not the actual objects themselves. This means that changes to nested objects in the copied object will also affect the original object, 
+and vice versa.
+
+Example:
+
+const original = {
+  name: "John",
+  address: {
+    city: "New York",
+    zip: 10001
+  }
+};
+
+// Shallow copy using Object.assign
+const shallowCopy = Object.assign({}, original);
+
+// Modify the nested object
+shallowCopy.address.city = "Los Angeles";
+
+console.log(original.address.city); // "Los Angeles"
+console.log(shallowCopy.address.city); // "Los Angeles"
+Here, both original and shallowCopy refer to the same nested address object, so a change in one affects the other.
+
+Common Ways to Create a Shallow Copy:
+Object.assign():
+
+
+const shallowCopy = Object.assign({}, original);
+Spread Operator:
+
+
+const shallowCopy = { ...original };
+
+Deep Copy
+
+A deep copy involves creating a new object and recursively copying all levels of nested objects and arrays. 
+This means that the copied object and the original object are completely independent, 
+and changes to the deep-copied object do not affect the original object.
+
+Example:
+const original = {
+  name: "John",
+  address: {
+    city: "New York",
+    zip: 10001
+  }
+};
+
+// Deep copy using JSON methods
+const deepCopy = JSON.parse(JSON.stringify(original));
+
+// Modify the nested object
+deepCopy.address.city = "Los Angeles";
+
+console.log(original.address.city); // "New York"
+console.log(deepCopy.address.city); // "Los Angeles"
+Here, original and deepCopy have completely separate nested address objects, so changes in one do not affect the other.
+
+Common Ways to Create a Deep Copy:
+JSON.parse(JSON.stringify()):
+
+
+const deepCopy = JSON.parse(JSON.stringify(original));
+This method does not work well with functions, undefined, Date, Map, Set, or other complex data types.
+Libraries:
+
+Lodash: The _.cloneDeep method in the Lodash library is a robust way to perform deep copies:
+const deepCopy = _.cloneDeep(original);
+Manual Recursion:
+
+You can manually write a recursive function to handle deep copying, which is more flexible and can handle special cases.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Ways to Construct An Object
+
+In JavaScript, there are several ways to create objects, each with its own use cases and features. 
+Here’s an overview of the most common methods:
+
+1. Object Literals
+The simplest way to create an object is by using an object literal. This involves defining the object directly within curly braces {}.
+
+
+const person = {
+  name: 'John',
+  age: 30,
+  greet() {
+    console.log('Hello!');
+  }
+};
+
+
+2. Using the new Object() Syntax
+You can also create an object using the Object constructor. This method is less commonly used compared to object literals.
+
+const person = new Object();
+person.name = 'John';
+person.age = 30;
+person.greet = function() {
+  console.log('Hello!');
+};
+
+
+3. Using a Constructor Function
+Constructor functions are a way to create objects with the same properties and methods. You define a function with an initial setup and then use the new keyword to create instances.
+
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.greet = function() {
+    console.log('Hello!');
+  };
+}
+
+const person = new Person('John', 30);
+4. Using ES6 Classes
+ES6 introduced classes, which provide a cleaner syntax for creating constructor functions and working with inheritance.
+
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  greet() {
+    console.log('Hello!');
+  }
+}
+
+const person = new Person('John', 30);
+5. Using Object.create()
+The Object.create() method creates a new object with the specified prototype object and properties. 
+This is useful for setting up inheritance.
+
+
+const personPrototype = {
+  greet() {
+    console.log('Hello!');
+  }
+};
+
+const person = Object.create(personPrototype);
+person.name = 'John';
+person.age = 30;
+6. Using Object.assign()
+Object.assign() can be used to copy properties from one or more source objects to a target object. 
+This method is often used to create objects with a combination of properties from multiple sources.
+
+const person = Object.assign({}, { name: 'John' }, { age: 30 });
+
+
+7. Using Factory Functions
+Factory functions are functions that return new objects. 
+They provide a way to encapsulate object creation logic and are useful for creating multiple similar objects.
+
+
+function createPerson(name, age) {
+  return {
+    name,
+    age,
+    greet() {
+      console.log('Hello!');
+    }
+  };
+}
+
+const person = createPerson('John', 30);

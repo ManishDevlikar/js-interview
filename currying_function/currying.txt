@@ -1,0 +1,2 @@
+It is a technique in functional programming, 
+that transforms the function of multiple arguments into several functions of a single argument in sequence. 

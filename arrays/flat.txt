@@ -1,0 +1,14 @@
+In JavaScript, flat() and flatMap() are both array methods, but they serve different purposes. Here’s a breakdown of the differences:
+
+Array.prototype.flat()
+Purpose: flat() is used to flatten an array of arrays, reducing the nesting level by a specified depth.
+Syntax: array.flat(depth)
+depth (optional): The number of levels to flatten. Defaults to 1 if not provided.
+Returns: A new array with the sub-array elements concatenated into it.
+
+
+Array.prototype.flatMap()
+Purpose: flatMap() is a combination of map() followed by flat(1). It first maps each element using a mapping function, then flattens the result by one level.
+Syntax: array.flatMap(callbackFn)
+callbackFn: A function that is called for every element of the array.
+Returns: A new array with each element being the result of the callback function, followed by a flattening operation at a depth of 1.
